@@ -1,3 +1,5 @@
+@import url("fonts.css");
+
 *,
 ::after,
 ::before {
@@ -8,4 +10,11 @@
 
 html {
   font-size: 62.5%;
+  direction: rtl;
+}
+
+body,
+input,
+button {
+  font-family: "vazir";
 }
