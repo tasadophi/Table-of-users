@@ -54,12 +54,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuth }) => {
           <Input
             formik={formik}
             name="username"
+            value={formik.values.username}
             placeholder="نام کاربری"
             type="text"
           />
           <Input
             formik={formik}
             name="password"
+            value={formik.values.password}
             placeholder="رمز عبور"
             type="text"
           />
