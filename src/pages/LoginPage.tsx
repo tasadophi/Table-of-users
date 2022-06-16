@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import data from "data.json";
 import { useState } from "react";
 import Modal from "common/Modal";
+import Input from "common/Input";
 
 interface LoginPageProps {
   setAuth: any;
@@ -50,18 +51,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuth }) => {
       <h1 className={styles.title}>فرم ورود</h1>
       <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
         <div className={styles.inputs}>
-          <input
-            type="text"
-            name="username"
-            onChange={formik.handleChange}
-            placeholder="نام کاربری"
-          />
-          <input
-            type="text"
-            name="password"
-            onChange={formik.handleChange}
-            placeholder="رمز عبور"
-          />
+          <Input formik={formik} name="username" placeholder="نام کاربری" />
+          <Input formik={formik} name="password" placeholder="رمز عبور" />
         </div>
         <button className={styles.btn} type="submit">
           ورود
