@@ -5,7 +5,11 @@ import data from "data.json";
 import { useState } from "react";
 import Modal from "common/Modal";
 
-const LoginPage: React.FC = () => {
+interface LoginPageProps {
+  setAuth: any;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ setAuth }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -22,7 +26,10 @@ const LoginPage: React.FC = () => {
   const handleSubmit = ({ username, password }: formValues) => {
     const user = data.users.find((user: any) => user.username === username);
     if (user) {
-      user.password === password && navigate("/", { replace: true });
+      if (user.password === password) {
+        setAuth(true);
+        navigate("/", { replace: true });
+      }
     }
     setShowModal(true);
   };

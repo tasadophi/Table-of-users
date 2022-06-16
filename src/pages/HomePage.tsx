@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "styles/HomePage.module.scss";
 import { BiTrash } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   firstname: string;
@@ -46,7 +47,16 @@ const Table: React.FC<tableProps> = ({ users }) => {
   );
 };
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+  isAuth: Boolean;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ isAuth }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuth) navigate("/login");
+  }, []);
+
   const [users, setUsers] = useState<User[]>([
     {
       firstname: "علی",
