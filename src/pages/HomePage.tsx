@@ -16,6 +16,7 @@ interface User {
 
 interface TableProps {
   users: User[];
+  setUsers: any;
 }
 
 interface FormProps {
@@ -85,32 +86,69 @@ const Form: React.FC<FormProps> = ({ formik }) => {
   );
 };
 
-const Table: React.FC<TableProps> = ({ users }) => {
+const Table: React.FC<TableProps> = ({ users, setUsers }) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [userCode, setUserCode] = useState<string>("");
+
+  // handlers
+  const deleteUserHandler = (code: string) => {
+    const newUsers = users.filter((user) => user.code !== code);
+    setUsers(newUsers);
+  };
+
+  const cancelHandler = () => {
+    setShowModal(false);
+  };
+
   return (
-    <table className={styles.table}>
-      <thead className={styles.thead}>
-        <tr>
-          <th>نام</th>
-          <th>نام خانوادگی</th>
-          <th>شماره موبایل</th>
-          <th>کد ملی</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody className={styles.tbody}>
-        {users.map((user) => (
-          <tr key={user.code}>
-            <td>{user.firstname}</td>
-            <td>{user.lastname}</td>
-            <td>{user.phone}</td>
-            <td>{user.code}</td>
-            <td>
-              <button className={styles.btn}>{<BiTrash />}</button>
-            </td>
+    <>
+      <Modal showModal={showModal} setShowModal={setShowModal}>
+        <div>آیا از حذف کاربر اطمینان دارید؟</div>
+        <div className={styles.btns}>
+          <button className={styles.cancelBtn} onClick={cancelHandler}>
+            نگهدار
+          </button>
+          <button
+            className={styles.removeBtn}
+            onClick={() => deleteUserHandler(userCode)}
+          >
+            حذف
+          </button>
+        </div>
+      </Modal>
+      <table className={styles.table}>
+        <thead className={styles.thead}>
+          <tr>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>شماره موبایل</th>
+            <th>کد ملی</th>
+            <th></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className={styles.tbody}>
+          {users.map((user) => (
+            <tr key={user.code}>
+              <td>{user.firstname}</td>
+              <td>{user.lastname}</td>
+              <td>{user.phone}</td>
+              <td>{user.code}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    setShowModal(true);
+                    setUserCode(user.code);
+                  }}
+                  className={styles.btn}
+                >
+                  {<BiTrash />}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 
@@ -119,9 +157,9 @@ const HomePage: React.FC<HomePageProps> = ({ isAuth }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  // useEffect(() => {
-  //   if (!isAuth) navigate("/login");
-  // }, []);
+  useEffect(() => {
+    if (!isAuth) navigate("/login");
+  }, []);
 
   // handler
   const cancelHandler = () => {
@@ -175,6 +213,9 @@ const HomePage: React.FC<HomePageProps> = ({ isAuth }) => {
       const isCodeValid = validateCode(code);
       if (isCodeValid) {
         setUsers([...users, { firstname, lastname, phone, code }]);
+        formik.resetForm({
+          values: { firstname: "", lastname: "", phone: "", code: "" },
+        });
       } else {
         setShowModal(true);
         setError("کدملی معتبر نیست!");
@@ -183,9 +224,6 @@ const HomePage: React.FC<HomePageProps> = ({ isAuth }) => {
       setShowModal(true);
       setError("این کاربر وجود دارد!");
     }
-    formik.resetForm({
-      values: { firstname: "", lastname: "", phone: "", code: "" },
-    });
   };
 
   const formik: FormikProps<User> = useFormik({
@@ -206,7 +244,7 @@ const HomePage: React.FC<HomePageProps> = ({ isAuth }) => {
         </button>
       </Modal>
       {users.length ? <h1 className={styles.title}>جدول کاربران</h1> : ""}
-      {users.length ? <Table users={users} /> : ""}
+      {users.length ? <Table users={users} setUsers={setUsers} /> : ""}
       <h2 className={styles.title}>فرم افزودن کاربر</h2>
       <Form formik={formik} />
     </div>

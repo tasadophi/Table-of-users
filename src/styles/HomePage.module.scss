@@ -2,8 +2,11 @@
 .container {
   text-align: center;
   font-size: 2rem;
+}
+
+.btns {
   display: flex;
-  flex-direction: column;
+  gap: 2rem;
   align-items: center;
 }
 
@@ -51,6 +54,24 @@
   background-color: $secondary;
   color: $redColor;
   padding: 0.5rem 1rem;
+}
+
+.removeBtn {
+  @extend .btn;
+  background-color: #fff;
+  border: 1px solid $redColor;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.removeBtn:hover {
+  background-color: $redColor;
+  color: #fff;
+}
+
+.cancelBtn {
+  @extend .submitBtn;
+  margin-top: 0 !important;
 }
 
 .title {
