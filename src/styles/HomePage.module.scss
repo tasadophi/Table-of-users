@@ -2,13 +2,18 @@
 .container {
   text-align: center;
   font-size: 2rem;
-  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .table {
   white-space: nowrap;
   margin: 2rem auto;
   font-size: 1.6rem;
+  display: block;
+  max-width: fit-content;
+  overflow-x: auto;
 }
 
 .tchild {
@@ -46,4 +51,69 @@
   background-color: $secondary;
   color: $redColor;
   padding: 0.5rem 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  color: $primary;
+  margin: 2rem 0;
+}
+
+.formContainer {
+  max-width: 20rem;
+  margin: 0 auto;
+}
+
+.formContainer,
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputs {
+  gap: 1rem;
+  width: 100%;
+}
+
+.inputBox {
+  width: 100%;
+  text-align: right;
+  span {
+    font-size: 1.2rem;
+    color: $redColor;
+  }
+}
+
+.submitBtn {
+  @extend .btn;
+  background-color: $primary;
+  color: $secondary;
+  margin-top: 1rem;
+  border-radius: 5px;
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media screen and (min-width: 768px) {
+  .formContainer {
+    min-width: 40rem;
+  }
+
+  .inputs {
+    align-items: unset;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .formContainer {
+    min-width: 60rem;
+  }
+
+  .inputs {
+    align-items: unset;
+  }
 }
