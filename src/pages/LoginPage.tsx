@@ -51,8 +51,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuth }) => {
       <h1 className={styles.title}>فرم ورود</h1>
       <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
         <div className={styles.inputs}>
-          <Input formik={formik} name="username" placeholder="نام کاربری" />
-          <Input formik={formik} name="password" placeholder="رمز عبور" />
+          <Input
+            formik={formik}
+            name="username"
+            placeholder="نام کاربری"
+            type="text"
+          />
+          <Input
+            formik={formik}
+            name="password"
+            placeholder="رمز عبور"
+            type="text"
+          />
         </div>
         <button className={styles.btn} type="submit">
           ورود

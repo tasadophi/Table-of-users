@@ -5,14 +5,16 @@ interface Props {
   formik: any;
   name: string;
   placeholder: string;
+  type: string;
 }
 
-const Input: React.FC<Props> = ({ formik, name, placeholder }) => {
+const Input: React.FC<Props> = ({ formik, name, placeholder, type }) => {
   return (
     <input
       className={styles.input}
-      type="text"
+      type={type}
       name={name}
+      onBlur={formik.handleBlur}
       onChange={formik.handleChange}
       placeholder={placeholder}
     />
